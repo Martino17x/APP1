@@ -19,7 +19,7 @@ def crear_usuario(db: Session, data: schemas.UsuarioCreate) -> models.Usuario:
         raise ValueError("El email ya está registrado")
     usuario = models.Usuario(nombre=data.nombre, email=data.email)
     db.add(usuario)
-    db.flush()  # asegura que tenga ID
+    db.commit()
     db.refresh(usuario)
     return usuario
 
@@ -33,10 +33,10 @@ def actualizar_usuario(db: Session, usuario: models.Usuario, data: schemas.Usuar
                 raise ValueError("El email ya está registrado")
             usuario.email = data.email
     db.add(usuario)
-    db.flush()
+    db.commit()
     db.refresh(usuario)
     return usuario
 
 def eliminar_usuario(db: Session, usuario: models.Usuario) -> None:
     db.delete(usuario)
-    db.flush()
+    db.commit()
